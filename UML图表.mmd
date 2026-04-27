@@ -1,0 +1,206 @@
+```mermaid
+%% 用例图：个人博客系统
+%% 参与者：游客、普通用户、管理员
+%% 用例：至少6个，包含include和extend关系
+
+graph LR
+    %% 参与者定义
+    A((游客))
+    U((普通用户))
+    M((管理员))
+
+    %% 游客用例
+    A -->|1. 浏览文章| UC1
+    A -->|2. 搜索文章| UC2
+    A -->|3. 按分类筛选| UC3
+    A -->|4. 按标签筛选| UC4
+    A -->|5. 登录| UC5
+    A -->|6. 注册| UC6
+
+    %% 普通用户用例
+    U -->|7. 评论文章| UC7
+    U -->|8. 发布文章| UC8
+    U -->|9. 管理我的文章| UC9
+    U -.->|10. 继承| UC1
+
+    %% 管理员用例
+    M -->|11. 管理所有文章| UC10
+    M -->|12. 管理分类| UC11
+    M -->|13. 管理用户| UC12
+    M -->|14. 审核文章| UC13
+    M -.->|15. 继承| UC7
+    M -.->|16. 继承| UC8
+
+    %% include关系：评论前需要登录
+    UC7 -.->|"<<include>>"| UC5
+
+    %% extend关系：发布文章时可以添加标签
+    UC8 -.->|"<<extend>>"| ET1
+
+    %% 用例分组
+    subgraph 基础功能
+        UC1[浏览文章]
+        UC2[搜索文章]
+        UC3[按分类筛选]
+        UC4[按标签筛选]
+    end
+
+    subgraph 账户管理
+        UC5[登录]
+        UC6[注册]
+    end
+
+    subgraph 内容管理
+        UC7[评论文章]
+        UC8[发布文章]
+        UC9[管理我的文章]
+        UC10[管理所有文章]
+        UC11[管理分类]
+        UC12[管理用户]
+        UC13[审核文章]
+    end
+
+    subgraph 扩展功能
+        ET1[添加标签]
+    end
+
+    style A fill:#e1f5fe
+    style U fill:#b3e5fc
+    style M fill:#81d4fa
+```
+
+```mermaid
+%% 类图：个人博客系统
+%% 类：User, Post, Category, Comment, Tag
+%% 关系：关联关系
+
+classDiagram
+    class User {
+        -Integer id
+        -String username
+        -String password
+        -String role
+        +login()
+        +register()
+        +updateProfile()
+        +logout()
+    }
+
+    class Post {
+        -Integer id
+        -String title
+        -String content
+        -String author
+        -Date createdAt
+        -Date updatedAt
+        -String status
+        -Integer categoryId
+        +create()
+        +update()
+        +delete()
+        +publish()
+        +getComments()
+    }
+
+    class Category {
+        -Integer id
+        -String name
+        -String description
+        +create()
+        +update()
+        +delete()
+    }
+
+    class Comment {
+        -Integer id
+        -Integer postId
+        -String content
+        -String author
+        -Date createdAt
+        +create()
+        +delete()
+    }
+
+    class Tag {
+        -Integer id
+        -String name
+        +addToPost()
+        +removeFromPost()
+    }
+
+    %% 关联关系
+    User "1" --> "*" Post : creates
+    User "1" --> "*" Comment : writes
+    Post "1" --> "*" Comment : has
+    Post "1" --> "1" Category : belongs to
+    Post "*" --> "*" Tag : tagged with
+    Category "1" --> "*" Post : contains
+
+    %% 依赖关系
+    Post ..> Comment : depends on
+
+    style User fill:#ffcdd2
+    style Post fill:#c8e6c9
+    style Category fill:#fff9c4
+    style Comment fill:#bbdefb
+    style Tag fill:#e1bee7
+```
+
+```mermaid
+%% 状态图：文章状态流转
+%% 文章从创建到最终状态的生命周期
+
+stateDiagram-v2
+    [*] --> 草稿 : 创建文章
+
+    草稿 --> 待审核 : 提交发布
+    草稿 --> 草稿 : 保存草稿
+
+    待审核 --> 已发布 : 管理员通过
+    待审核 --> 草稿 : 管理员拒绝
+    待审核 --> 待审核 : 补充材料
+
+    已发布 --> 已归档 : 归档操作
+    已发布 --> 已发布 : 编辑更新
+
+    已归档 --> 已发布 : 重新发布
+    已归档 --> [*] : 删除
+
+    已发布 --> [*] : 删除
+
+    %% 状态说明
+    note right of 草稿
+        作者可以编辑
+        只能作者和管理员查看
+    end note
+
+    note right of 待审核
+        等待管理员审核
+        作者可以撤回
+    end note
+
+    note right of 已发布
+        所有用户可见
+        可以评论
+    end note
+
+    note right of 已归档
+        不再对外显示
+        可以重新发布
+    end note
+```
+
+---
+
+## 使用说明
+
+1. 打开 **Draw.io**（https://app.diagrams.net/）
+2. 选择 **文件** → **导入** → **Mermaid**
+3. 粘贴以上代码
+4. 自动生成三个UML图
+5. 可导出为PNG、SVG或Visio格式
+
+或者直接在以下工具中渲染Mermaid：
+- **Typora** 编辑器（支持实时预览Mermaid）
+- **VS Code** 安装 Mermaid 插件
+- **在线编辑器**：https://mermaid.live/
