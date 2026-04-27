@@ -1,6 +1,6 @@
 let currentUser = null;
 let currentPostId = null;
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://personal-blog-system-dev-production.up.railway.app';
 
 let currentFilterTag = null;
 let currentPage = 1;
