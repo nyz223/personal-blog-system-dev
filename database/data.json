@@ -1,1 +1,521 @@
-
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "管理员",
+      "password": "2698137467",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "username": "nyz",
+      "password": "02263834",
+      "role": "user"
+    },
+    {
+      "id": 3,
+      "username": "abc",
+      "password": "abc",
+      "role": "user"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "个人",
+      "description": "个人相关内容"
+    },
+    {
+      "id": 2,
+      "name": "技术",
+      "description": "技术相关内容"
+    },
+    {
+      "id": 3,
+      "name": "生活",
+      "description": "生活相关内容"
+    },
+    {
+      "id": 4,
+      "name": "游戏",
+      "description": "游戏相关"
+    },
+    {
+      "id": 5,
+      "name": "运动",
+      "description": "运动相关"
+    },
+    {
+      "id": 6,
+      "name": "艺术",
+      "description": "艺术相关"
+    },
+    {
+      "id": 7,
+      "name": "音乐",
+      "description": "音乐相关"
+    },
+    {
+      "id": 8,
+      "name": "体育",
+      "description": "体育相关"
+    },
+    {
+      "id": 9,
+      "name": "政治",
+      "description": "政治相关"
+    },
+    {
+      "id": 10,
+      "name": "数学",
+      "description": "数学相关"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "欢迎来到个人博客",
+      "content": "这是我的第一篇博客文章，希望大家喜欢！",
+      "author": "admin",
+      "createdAt": "2026-04-26T12:00:00.000Z",
+      "updatedAt": "2026-04-26T14:25:16.298Z",
+      "status": "published",
+      "categoryId": 1,
+      "tags": [
+        "博客",
+        "欢迎"
+      ],
+      "favorites": 0,
+      "favoritedBy": []
+    },
+    {
+      "id": 16,
+      "title": "erhfhehe",
+      "content": "dfdfherhadf",
+      "author": "nyz",
+      "createdAt": "2026-04-26T16:20:47.231Z",
+      "updatedAt": "2026-04-26T17:04:41.935Z",
+      "status": "draft",
+      "categoryId": 6,
+      "tags": [
+        "erhry"
+      ]
+    },
+    {
+      "id": 17,
+      "title": "JavaScript异步编程详解",
+      "content": "JavaScript异步编程是现代前端开发中必须掌握的核心技能。本文详细介绍了回调函数、Promise和async/await三种异步编程方式的使用方法和适用场景。通过实际案例演示了如何避免回调地狱，如何正确处理异步错误，以及如何编写清晰可维护的异步代码。",
+      "author": "管理员",
+      "createdAt": "2026-04-27T08:00:00.000Z",
+      "updatedAt": "2026-04-27T08:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "JavaScript",
+        "异步编程",
+        "前端开发"
+      ],
+      "favorites": 0,
+      "favoritedBy": []
+    },
+    {
+      "id": 18,
+      "title": "CSS Grid布局实战技巧",
+      "content": "CSS Grid是CSS3中引入的二维布局系统，能够轻松实现复杂的页面布局。本文通过多个实战案例展示了Grid布局的强大功能，包括网格模板定义、网格线定位、网格区域命名等核心概念。文章还对比了Grid与Flexbox的适用场景，帮助开发者在不同情况下选择最合适的布局方式。",
+      "author": "管理员",
+      "createdAt": "2026-04-27T09:00:00.000Z",
+      "updatedAt": "2026-04-27T09:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "CSS",
+        "Grid布局",
+        "前端"
+      ],
+      "favorites": 0,
+      "favoritedBy": []
+    },
+    {
+      "id": 19,
+      "title": "Node.js后端开发入门指南",
+      "content": "Node.js让JavaScript可以在服务器端运行，为全栈开发提供了可能性。本文介绍了Node.js的基本概念、核心模块和常用框架，帮助初学者快速入门后端开发。文章涵盖了Express框架的使用、路由配置、中间件机制等关键知识点，并提供了完整的项目结构建议。",
+      "author": "管理员",
+      "createdAt": "2026-04-27T10:00:00.000Z",
+      "updatedAt": "2026-04-27T10:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "Node.js",
+        "后端开发",
+        "全栈"
+      ],
+      "favorites": 1,
+      "favoritedBy": [
+        {
+          "userId": 2,
+          "username": "nyz"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "title": "Git版本控制最佳实践",
+      "content": "Git是目前最流行的版本控制系统，掌握其使用技巧对开发者至关重要。本文总结了日常开发中常用的Git命令和工作流程，包括分支管理、冲突解决、代码回滚等核心操作。文章还介绍了Git Flow工作模型和如何编写规范的提交信息，帮助团队保持清晰的代码历史。",
+      "author": "管理员",
+      "createdAt": "2026-04-27T11:00:00.000Z",
+      "updatedAt": "2026-04-27T11:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "Git",
+        "版本控制",
+        "团队协作"
+      ],
+      "favorites": 1,
+      "favoritedBy": [
+        {
+          "userId": 2,
+          "username": "nyz"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "title": "数据库索引优化原理",
+      "content": "数据库索引是提升查询性能的关键技术。本文深入解析了B树和B+树索引的工作原理，解释了索引如何加速数据检索，以及如何根据实际业务场景选择合适的索引类型。文章还讨论了索引维护的开销和过度索引的风险，提供了索引设计的最佳实践建议。",
+      "author": "管理员",
+      "createdAt": "2026-04-27T12:00:00.000Z",
+      "updatedAt": "2026-04-27T12:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "数据库",
+        "索引",
+        "性能优化"
+      ],
+      "favorites": 1,
+      "favoritedBy": [
+        {
+          "userId": 2,
+          "username": "nyz"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "RESTful API设计规范",
+      "content": "RESTful API已成为现代Web服务的主流设计风格。本文详细介绍了REST架构的核心原则和约束条件，提供了API端点设计、HTTP方法使用、状态码选择等方面的最佳实践。文章还讨论了版本控制、认证机制和错误处理等实际问题的解决方案。",
+      "author": "管理员",
+      "createdAt": "2026-04-27T13:00:00.000Z",
+      "updatedAt": "2026-04-27T13:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "RESTful",
+        "API设计",
+        "Web服务"
+      ]
+    },
+    {
+      "id": 23,
+      "title": "TypeScript类型系统详解",
+      "content": "TypeScript为JavaScript添加了静态类型检查，能够在编译阶段发现潜在错误。本文介绍了TypeScript的基本类型、接口、泛型和类型守卫等核心概念，展示了如何利用类型系统编写更安全的代码。文章还讨论了类型推断机制和如何处理复杂联合类型。",
+      "author": "管理员",
+      "createdAt": "2026-04-27T14:00:00.000Z",
+      "updatedAt": "2026-04-27T14:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "TypeScript",
+        "类型系统",
+        "JavaScript"
+      ],
+      "favorites": 1,
+      "favoritedBy": [
+        {
+          "userId": 2,
+          "username": "nyz"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "title": "前端性能优化实战",
+      "content": "页面加载速度直接影响用户体验和搜索引擎排名。本文从网络层面、渲染层面和代码层面三个角度全面介绍了前端性能优化的方法。涵盖了资源压缩、懒加载、缓存策略、代码分割等关键优化技术。文章还提供了性能监控工具的使用建议。",
+      "author": "管理员",
+      "createdAt": "2026-04-27T15:00:00.000Z",
+      "updatedAt": "2026-04-27T15:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "性能优化",
+        "前端",
+        "用户体验"
+      ]
+    },
+    {
+      "id": 25,
+      "title": "运动健身的正确姿势",
+      "content": "正确的运动姿势是避免受伤、提高训练效果的关键。本文详细介绍了常见健身动作的标准姿势，包括深蹲、硬拉、卧推等复合动作的技术要点。文章强调了热身准备和运动后拉伸的重要性，提供了针对不同肌群的训练建议。",
+      "author": "nyz",
+      "createdAt": "2026-04-27T08:30:00.000Z",
+      "updatedAt": "2026-04-27T08:30:00.000Z",
+      "status": "published",
+      "categoryId": 5,
+      "tags": [
+        "健身",
+        "运动",
+        "健康"
+      ]
+    },
+    {
+      "id": 26,
+      "title": "家庭烹饪实用技巧",
+      "content": "掌握一些基础的烹饪技巧可以让日常饮食更加美味健康。本文分享了刀工处理、火候控制、调味技巧等方面的实用经验。文章详细讲解了如何判断油温、掌握炒菜时机、调配基础酱汁等厨房必备技能。",
+      "author": "nyz",
+      "createdAt": "2026-04-27T09:30:00.000Z",
+      "updatedAt": "2026-04-27T09:30:00.000Z",
+      "status": "published",
+      "categoryId": 3,
+      "tags": [
+        "烹饪",
+        "美食",
+        "生活技巧"
+      ]
+    },
+    {
+      "id": 27,
+      "title": "旅行摄影构图法则",
+      "content": "一张好的旅行照片不仅需要美丽的风景，更需要恰当的构图。本文介绍了三分法、对角线构图、引导线等经典构图法则在旅行摄影中的应用。通过实际案例分析，展示了如何在不同场景中选择合适的构图方式。",
+      "author": "nyz",
+      "createdAt": "2026-04-27T10:30:00.000Z",
+      "updatedAt": "2026-04-27T10:30:00.000Z",
+      "status": "published",
+      "categoryId": 3,
+      "tags": [
+        "摄影",
+        "旅行",
+        "构图"
+      ]
+    },
+    {
+      "id": 28,
+      "title": "桌面游戏推荐与评测",
+      "content": "桌面游戏作为传统的聚会娱乐方式，近年来重新受到年轻人的喜爱。本文精选了多款适合不同人数和场景的桌游进行推荐，包括策略类、合作类和派对类等多种类型。文章详细评测了每款游戏的可玩性、策略深度和互动乐趣。",
+      "author": "nyz",
+      "createdAt": "2026-04-27T11:30:00.000Z",
+      "updatedAt": "2026-04-27T11:30:00.000Z",
+      "status": "published",
+      "categoryId": 4,
+      "tags": [
+        "桌游",
+        "游戏",
+        "聚会"
+      ]
+    },
+    {
+      "id": 29,
+      "title": "时间管理与效率提升",
+      "content": "现代人面临着工作和生活多重压力，有效的时间管理变得尤为重要。本文介绍了番茄工作法、时间块管理等实用时间管理技巧，分享了如何制定合理的计划、优先级排序和避免拖延。文章还讨论了如何在不同任务间合理切换。",
+      "author": "nyz",
+      "createdAt": "2026-04-27T12:30:00.000Z",
+      "updatedAt": "2026-04-27T12:30:00.000Z",
+      "status": "published",
+      "categoryId": 3,
+      "tags": [
+        "时间管理",
+        "效率",
+        "自我提升"
+      ]
+    },
+    {
+      "id": 30,
+      "title": "音乐欣赏入门指南",
+      "content": "音乐是一种超越语言的表达形式，欣赏音乐能够丰富精神世界。本文从音乐的基本元素出发，介绍了节奏、旋律、和声等概念，帮助读者建立基础的乐理知识。文章还推荐了不同风格的经典作品，从古典到爵士，从摇滚到电子。",
+      "author": "nyz",
+      "createdAt": "2026-04-27T13:30:00.000Z",
+      "updatedAt": "2026-04-27T13:30:00.000Z",
+      "status": "published",
+      "categoryId": 7,
+      "tags": [
+        "音乐",
+        "欣赏",
+        "艺术"
+      ]
+    },
+    {
+      "id": 31,
+      "title": "Python数据分析实战",
+      "content": "Python已成为数据科学领域最受欢迎的编程语言。本文介绍了使用Python进行数据分析的基本流程，包括数据读取、清洗、转换和可视化等环节。文章详细讲解了pandas和matplotlib两个核心库的使用方法，展示了如何从真实数据中提取有价值的信息。",
+      "author": "abc",
+      "createdAt": "2026-04-27T08:00:00.000Z",
+      "updatedAt": "2026-04-27T08:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "Python",
+        "数据分析",
+        "数据科学"
+      ]
+    },
+    {
+      "id": 32,
+      "title": "人工智能的现状与未来",
+      "content": "人工智能技术正在深刻改变我们的生活方式和工作模式。本文回顾了AI技术的发展历程，介绍了机器学习、深度学习等核心技术的基本原理。文章还探讨了当前AI技术的局限性以及未来发展的可能方向，分析了AI对就业、教育、医疗等领域的潜在影响。",
+      "author": "abc",
+      "createdAt": "2026-04-27T09:00:00.000Z",
+      "updatedAt": "2026-04-27T09:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "人工智能",
+        "AI",
+        "机器学习"
+      ]
+    },
+    {
+      "id": 33,
+      "title": "职场沟通技巧总结",
+      "content": "良好的沟通能力是职场成功的重要因素。本文总结了职场中常用的沟通技巧，包括倾听表达、反馈回应、会议发言等方面。文章提供了处理冲突、协调合作、汇报工作等具体场景的沟通策略。通过实际案例分析了常见沟通误区，并给出了改进建议。",
+      "author": "abc",
+      "createdAt": "2026-04-27T10:00:00.000Z",
+      "updatedAt": "2026-04-27T10:00:00.000Z",
+      "status": "published",
+      "categoryId": 1,
+      "tags": [
+        "职场",
+        "沟通",
+        "职业发展"
+      ]
+    },
+    {
+      "id": 34,
+      "title": "读书方法与心得分享",
+      "content": "阅读是获取知识、开阔视野的重要途径，但如何高效读书是很多人关心的问题。本文分享了多种实用的读书方法，包括快速阅读、精读、主题阅读等不同策略。文章介绍了如何做读书笔记、如何选书以及如何将书中知识转化为实际行动。",
+      "author": "abc",
+      "createdAt": "2026-04-27T11:00:00.000Z",
+      "updatedAt": "2026-04-27T11:00:00.000Z",
+      "status": "published",
+      "categoryId": 1,
+      "tags": [
+        "读书",
+        "学习方法",
+        "自我提升"
+      ]
+    },
+    {
+      "id": 35,
+      "title": "区块链技术原理与应用",
+      "content": "区块链作为一种去中心化的分布式账本技术，近年来引起了广泛关注。本文深入浅出地介绍了区块链的基本原理，包括哈希函数、共识机制、智能合约等核心概念。文章还探讨了区块链在金融、供应链、版权保护等领域的应用场景。",
+      "author": "abc",
+      "createdAt": "2026-04-27T12:00:00.000Z",
+      "updatedAt": "2026-04-27T12:00:00.000Z",
+      "status": "published",
+      "categoryId": 2,
+      "tags": [
+        "区块链",
+        "技术",
+        "去中心化"
+      ]
+    },
+    {
+      "id": 36,
+      "title": "个人理财入门知识",
+      "content": "学会理财是每个人都需要掌握的生活技能。本文介绍了个人理财的基本概念和实用策略，包括储蓄、投资、保险等方面的基础知识。文章详细讲解了不同投资产品的风险收益特征，帮助读者根据自身情况制定合理的理财计划。",
+      "author": "abc",
+      "createdAt": "2026-04-27T13:00:00.000Z",
+      "updatedAt": "2026-04-27T13:00:00.000Z",
+      "status": "published",
+      "categoryId": 1,
+      "tags": [
+        "理财",
+        "投资",
+        "财务自由"
+      ]
+    },
+    {
+      "id": 23,
+      "title": "454",
+      "content": "737838737",
+      "author": "管理员",
+      "createdAt": "2026-04-26T18:16:48.029Z",
+      "updatedAt": "2026-04-26T18:16:48.029Z",
+      "status": "published",
+      "categoryId": 4,
+      "tags": [
+        "45"
+      ]
+    },
+    {
+      "id": 24,
+      "title": "783",
+      "content": "737837",
+      "author": "管理员",
+      "createdAt": "2026-04-26T18:16:54.352Z",
+      "updatedAt": "2026-04-26T18:16:54.352Z",
+      "status": "published",
+      "categoryId": 4,
+      "tags": []
+    },
+    {
+      "id": 25,
+      "title": "78375",
+      "content": "7387373",
+      "author": "管理员",
+      "createdAt": "2026-04-26T18:16:58.497Z",
+      "updatedAt": "2026-04-26T18:16:58.497Z",
+      "status": "published",
+      "categoryId": 4,
+      "tags": []
+    },
+    {
+      "id": 26,
+      "title": "783753",
+      "content": "7837837",
+      "author": "管理员",
+      "createdAt": "2026-04-26T18:17:01.893Z",
+      "updatedAt": "2026-04-26T18:17:01.893Z",
+      "status": "published",
+      "categoryId": 4,
+      "tags": []
+    },
+    {
+      "id": 27,
+      "title": "783573",
+      "content": "7837835",
+      "author": "管理员",
+      "createdAt": "2026-04-26T18:17:05.920Z",
+      "updatedAt": "2026-04-26T18:17:05.920Z",
+      "status": "published",
+      "categoryId": 4,
+      "tags": []
+    },
+    {
+      "id": 28,
+      "title": "43243",
+      "content": "453423",
+      "author": "管理员",
+      "createdAt": "2026-04-26T18:17:56.292Z",
+      "updatedAt": "2026-04-26T18:17:56.292Z",
+      "status": "published",
+      "categoryId": 4,
+      "tags": []
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "postId": 1,
+      "content": "赞",
+      "author": "admin",
+      "createdAt": "2026-04-26T14:24:49.651Z"
+    },
+    {
+      "id": 2,
+      "postId": 21,
+      "content": "赞",
+      "author": "nyz",
+      "createdAt": "2026-04-27T07:39:59.802Z"
+    }
+  ]
+}
