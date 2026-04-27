@@ -1,6 +1,6 @@
 let currentUser = null;
 let currentPostId = null;
-const API_URL = 'https://personal-blog-system-dev-production.up.railway.app';
+const API_URL = 'https://personal-blog-system-dev-production.up.railway.app/api';
 
 let currentFilterTag = null;
 let currentPage = 1;
