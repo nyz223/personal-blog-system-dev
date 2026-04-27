@@ -9,7 +9,7 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-const dataPath = path.join(__dirname, '../database/data.json');
+const dataPath = path.join(__dirname, 'database/data.json');
 
 if (!fs.existsSync(dataPath)) {
   const initialData = {
