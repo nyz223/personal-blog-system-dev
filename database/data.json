@@ -84,7 +84,9 @@
       "tags": [
         "博客",
         "欢迎"
-      ]
+      ],
+      "favorites": 0,
+      "favoritedBy": []
     },
     {
       "id": 16,
@@ -112,7 +114,9 @@
         "JavaScript",
         "异步编程",
         "前端开发"
-      ]
+      ],
+      "favorites": 0,
+      "favoritedBy": []
     },
     {
       "id": 18,
@@ -127,7 +131,9 @@
         "CSS",
         "Grid布局",
         "前端"
-      ]
+      ],
+      "favorites": 0,
+      "favoritedBy": []
     },
     {
       "id": 19,
@@ -142,6 +148,13 @@
         "Node.js",
         "后端开发",
         "全栈"
+      ],
+      "favorites": 1,
+      "favoritedBy": [
+        {
+          "userId": 2,
+          "username": "nyz"
+        }
       ]
     },
     {
@@ -157,6 +170,13 @@
         "Git",
         "版本控制",
         "团队协作"
+      ],
+      "favorites": 1,
+      "favoritedBy": [
+        {
+          "userId": 2,
+          "username": "nyz"
+        }
       ]
     },
     {
@@ -172,6 +192,13 @@
         "数据库",
         "索引",
         "性能优化"
+      ],
+      "favorites": 1,
+      "favoritedBy": [
+        {
+          "userId": 2,
+          "username": "nyz"
+        }
       ]
     },
     {
@@ -202,6 +229,13 @@
         "TypeScript",
         "类型系统",
         "JavaScript"
+      ],
+      "favorites": 1,
+      "favoritedBy": [
+        {
+          "userId": 2,
+          "username": "nyz"
+        }
       ]
     },
     {
@@ -475,6 +509,13 @@
       "content": "赞",
       "author": "admin",
       "createdAt": "2026-04-26T14:24:49.651Z"
+    },
+    {
+      "id": 2,
+      "postId": 21,
+      "content": "赞",
+      "author": "nyz",
+      "createdAt": "2026-04-27T07:39:59.802Z"
     }
   ]
 }

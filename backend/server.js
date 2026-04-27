@@ -13,37 +13,39 @@ const dataPath = path.join(__dirname, '../database/data.json');
 
 if (!fs.existsSync(dataPath)) {
   const initialData = {
-    users: [
-      { id: 1, username: 'admin', password: 'admin123', role: 'admin' },
-      { id: 2, username: 'user', password: 'user123', role: 'user' }
-    ],
-    categories: [
-      { id: 1, name: '个人', description: '个人相关内容' },
-      { id: 2, name: '技术', description: '技术相关内容' },
-      { id: 3, name: '生活', description: '生活相关内容' }
-    ],
-    posts: [
-      {
-        id: 1,
-        title: '欢迎来到个人博客',
-        content: '这是我的第一篇博客文章，希望大家喜欢！',
-        author: 'admin',
-        createdAt: new Date().toISOString(),
-        status: 'published',
-        categoryId: 1,
-        tags: ['博客', '欢迎']
-      }
-    ],
-    comments: [
-      {
-        id: 1,
-        postId: 1,
-        content: '这是一条评论',
-        author: 'user',
-        createdAt: new Date().toISOString()
-      }
-    ]
-  };
+  users: [
+    { id: 1, username: 'admin', password: 'admin123', role: 'admin' },
+    { id: 2, username: 'user', password: 'user123', role: 'user' }
+  ],
+  categories: [
+    { id: 1, name: '个人', description: '个人相关内容' },
+    { id: 2, name: '技术', description: '技术相关内容' },
+    { id: 3, name: '生活', description: '生活相关内容' }
+  ],
+  posts: [
+    {
+      id: 1,
+      title: '欢迎来到个人博客',
+      content: '这是我的第一篇博客文章，希望大家喜欢！',
+      author: 'admin',
+      createdAt: new Date().toISOString(),
+      status: 'published',
+      categoryId: 1,
+      tags: ['博客', '欢迎'],
+      favorites: 0,
+      favoritedBy: []
+    }
+  ],
+  comments: [
+    {
+      id: 1,
+      postId: 1,
+      content: '这是一条评论',
+      author: 'user',
+      createdAt: new Date().toISOString()
+    }
+  ]
+};
   fs.writeFileSync(dataPath, JSON.stringify(initialData, null, 2));
 }
 
@@ -232,6 +234,15 @@ app.get('/api/posts', (req, res) => {
     posts = posts.filter(p => p.author === author);
   }
 
+  // 确保所有文章都有收藏相关字段
+  posts = posts.map(post => {
+    return {
+      ...post,
+      favorites: post.favorites || 0,
+      favoritedBy: post.favoritedBy || []
+    };
+  });
+
   res.json(posts);
 });
 
@@ -241,7 +252,13 @@ app.get('/api/posts/:id', (req, res) => {
   const data = readData();
   const post = data.posts.find(p => p.id === parseInt(id));
   if (post) {
-    res.json(post);
+    // 确保文章有收藏相关字段
+    const postWithFavorites = {
+      ...post,
+      favorites: post.favorites || 0,
+      favoritedBy: post.favoritedBy || []
+    };
+    res.json(postWithFavorites);
   } else {
     res.status(404).json({ message: '文章不存在' });
   }
@@ -260,7 +277,9 @@ app.post('/api/posts', (req, res) => {
     updatedAt: new Date().toISOString(),
     status: status || 'draft',
     categoryId,
-    tags: tags || []
+    tags: tags || [],
+    favorites: 0,
+    favoritedBy: []
   };
   data.posts.push(newPost);
   writeData(data);
@@ -419,6 +438,53 @@ app.delete('/api/comments/:id', (req, res) => {
   } else {
     res.status(404).json({ message: '评论不存在' });
   }
+});
+
+// 收藏/取消收藏文章
+app.post('/api/posts/:id/favorite', (req, res) => {
+  const { id } = req.params;
+  const { userId, username } = req.body;
+  const data = readData();
+  const postIndex = data.posts.findIndex(p => p.id === parseInt(id));
+  
+  if (postIndex === -1) {
+    return res.status(404).json({ success: false, message: '文章不存在' });
+  }
+  
+  const post = data.posts[postIndex];
+  
+  // 确保文章有收藏相关字段
+  if (!post.favorites) post.favorites = 0;
+  if (!post.favoritedBy) post.favoritedBy = [];
+  
+  // 检查用户是否已收藏
+  const userIndex = post.favoritedBy.findIndex(user => user.userId === userId);
+  let isFavorite;
+  
+  if (userIndex === -1) {
+    // 收藏文章
+    post.favoritedBy.push({ userId, username });
+    post.favorites++;
+    isFavorite = true;
+  } else {
+    // 取消收藏
+    post.favoritedBy.splice(userIndex, 1);
+    post.favorites = Math.max(0, post.favorites - 1);
+    isFavorite = false;
+  }
+  
+  writeData(data);
+  res.json({ success: true, isFavorite, favorites: post.favorites });
+});
+
+// 获取用户收藏的文章
+app.get('/api/users/:userId/favorites', (req, res) => {
+  const { userId } = req.params;
+  const data = readData();
+  const favoritePosts = data.posts.filter(post => {
+    return post.favoritedBy && post.favoritedBy.some(user => user.userId === parseInt(userId));
+  });
+  res.json(favoritePosts);
 });
 
 app.listen(port, () => {

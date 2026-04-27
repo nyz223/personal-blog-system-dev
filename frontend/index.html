@@ -995,6 +995,7 @@
         <h1>个人博客系统</h1>
         <ul id="nav-links">
           <li><a href="#" onclick="showPage('home')">首页</a></li>
+          <li><a href="#" onclick="showFavorites()" id="favorites-link" class="hidden">我的收藏</a></li>
           <li><a href="#" onclick="showPage('login')" id="login-link">登录</a></li>
           <li><a href="#" onclick="showPage('register')" id="register-link">注册</a></li>
           <li><a href="#" onclick="showPage('dashboard')" id="dashboard-link" class="hidden">管理面板</a></li>
@@ -1006,6 +1007,7 @@
               </a>
               <div id="user-dropdown-menu" class="user-dropdown-menu hidden">
                 <a href="#" onclick="showAccountModal()">账户管理</a>
+                <a href="#" onclick="showFavorites()">我的收藏</a>
                 <a href="#" onclick="logout()">退出</a>
               </div>
             </div>
@@ -1078,6 +1080,13 @@
       <div class="post-content" id="post-content"></div>
       <div id="post-actions" class="post-actions hidden"></div>
       
+      <div id="favorite-section" class="post-actions">
+        <button class="btn btn-warning" onclick="toggleFavorite(${post.id})" id="favorite-btn-detail-${post.id}">
+          ${post.isFavorite ? '❤️ 已收藏' : '🤍 收藏'}
+        </button>
+        ${post.favorites ? `<span style="margin-left: 10px; font-size: 14px; color: var(--gray-color);">收藏: ${post.favorites}</span>` : ''}
+      </div>
+      
       <div class="comments-section">
         <h3>评论</h3>
         <div id="comments-container"></div>
@@ -1089,6 +1098,11 @@
           </form>
         </div>
       </div>
+    </div>
+    
+    <div id="favorites-page" class="posts-list hidden">
+      <h2>我的收藏</h2>
+      <div id="favorites-container"></div>
     </div>
     
     <div id="dashboard-page" class="dashboard hidden">
@@ -1334,6 +1348,7 @@
         document.getElementById('login-link').classList.add('hidden');
         document.getElementById('register-link').classList.add('hidden');
         document.getElementById('dashboard-link').classList.remove('hidden');
+        document.getElementById('favorites-link').classList.remove('hidden');
         document.getElementById('logout-link').classList.add('hidden'); // 隐藏原来的退出按钮
         document.getElementById('user-profile').classList.remove('hidden');
         // 显示用户信息
@@ -1343,6 +1358,7 @@
         document.getElementById('login-link').classList.remove('hidden');
         document.getElementById('register-link').classList.remove('hidden');
         document.getElementById('dashboard-link').classList.add('hidden');
+        document.getElementById('favorites-link').classList.add('hidden');
         document.getElementById('logout-link').classList.add('hidden');
         document.getElementById('user-profile').classList.add('hidden');
       }
@@ -1554,6 +1570,9 @@
           const statusText = { draft: '草稿', pending: '待审核', published: '已发布', archived: '已归档' };
           const categoryName = getCategoryName(post.categoryId);
           
+          // 检查用户是否已收藏
+          const isFavorite = currentUser && post.favoritedBy && post.favoritedBy.some(user => user.userId === currentUser.id);
+          
           container.innerHTML += `
             <div class="post-item">
               <div class="post-header">
@@ -1567,12 +1586,16 @@
                 <span class="author">作者: ${post.author}</span>
                 <span class="category">分类: ${categoryName}</span>
                 <span class="date">${new Date(post.createdAt).toLocaleString()}</span>
+                ${post.favorites ? `<span class="favorites">收藏: ${post.favorites}</span>` : ''}
               </div>
               <div class="tag-list">
                 ${(post.tags || []).map(t => `<span class="tag-item" onclick="filterByTag('${t}')" style="cursor:pointer;">${t}</span>`).join('')}
               </div>
               <div class="post-footer">
                 <a href="#" onclick="showPostDetail(${post.id})" class="read-more">阅读更多 →</a>
+                <button class="btn btn-warning" onclick="toggleFavorite(${post.id})" id="favorite-btn-${post.id}">
+                  ${isFavorite ? '❤️ 已收藏' : '🤍 收藏'}
+                </button>
               </div>
             </div>`;
         });
@@ -1639,6 +1662,17 @@
         } else {
           actionsDiv.classList.add('hidden');
         }
+        
+        // 更新收藏按钮状态
+        const favoriteSection = document.getElementById('favorite-section');
+        const isFavorite = currentUser && post.favoritedBy && post.favoritedBy.some(user => user.userId === currentUser.id);
+        favoriteSection.innerHTML = `
+          <button class="btn btn-warning" onclick="toggleFavorite(${post.id})" id="favorite-btn-detail-${post.id}">
+            ${isFavorite ? '❤️ 已收藏' : '🤍 收藏'}
+          </button>
+          ${post.favorites ? `<span style="margin-left: 10px; font-size: 14px; color: var(--gray-color);">收藏: ${post.favorites}</span>` : ''}
+        `;
+        
         loadComments(postId);
         showPage('post-detail');
       } catch (error) { alert('加载文章详情失败'); }
@@ -2132,6 +2166,170 @@
           loadPosts();
         }
       } catch (error) { alert('删除标签失败'); }
+    }
+    
+    async function toggleFavorite(postId) {
+      if (!currentUser) {
+        alert('请先登录');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${API_URL}/posts/${postId}/favorite`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: currentUser.id, username: currentUser.username })
+        });
+        const data = await response.json();
+        if (data.success) {
+          // 更新列表页面的收藏按钮状态
+          const btn = document.getElementById(`favorite-btn-${postId}`);
+          if (btn) {
+            btn.innerHTML = data.isFavorite ? '❤️ 已收藏' : '🤍 收藏';
+          }
+          
+          // 更新详情页面的收藏按钮状态
+          const detailBtn = document.getElementById(`favorite-btn-detail-${postId}`);
+          if (detailBtn) {
+            const favoriteSection = document.getElementById('favorite-section');
+            favoriteSection.innerHTML = `
+              <button class="btn btn-warning" onclick="toggleFavorite(${postId})" id="favorite-btn-detail-${postId}">
+                ${data.isFavorite ? '❤️ 已收藏' : '🤍 收藏'}
+              </button>
+              <span style="margin-left: 10px; font-size: 14px; color: var(--gray-color);">收藏: ${data.favorites}</span>
+            `;
+          }
+          
+          // 如果当前在收藏页面，刷新收藏列表并保持当前页码
+          if (!document.getElementById('favorites-page').classList.contains('hidden')) {
+            showFavorites(favoritesPage);
+          }
+        }
+      } catch (error) {
+        alert('收藏操作失败');
+      }
+    }
+    
+    let favoritesPage = 1;
+    const favoritesPerPage = 6;
+    let totalFavorites = 0;
+    
+    async function showFavorites(page = 1) {
+      if (!currentUser) {
+        alert('请先登录');
+        showPage('login');
+        return;
+      }
+      
+      document.querySelectorAll('[id$="-page"]').forEach(page => page.classList.add('hidden'));
+      document.getElementById('favorites-page').classList.remove('hidden');
+      
+      const container = document.getElementById('favorites-container');
+      container.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loading-spinner"></div><p>加载中...</p></div>';
+      
+      // 移除现有的分页控件
+      const existingPagination = document.querySelector('#favorites-page .pagination');
+      if (existingPagination) existingPagination.remove();
+      
+      try {
+        const response = await fetch(`${API_URL}/users/${currentUser.id}/favorites`);
+        const allFavoritePosts = await response.json();
+        totalFavorites = allFavoritePosts.length;
+        
+        // 分页处理
+        favoritesPage = page;
+        const startIndex = (page - 1) * favoritesPerPage;
+        const endIndex = startIndex + favoritesPerPage;
+        const favoritePosts = allFavoritePosts.slice(startIndex, endIndex);
+        
+        container.innerHTML = '';
+        
+        if (favoritePosts.length === 0) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 60px 20px; color: var(--gray-color);">
+              <h3>暂无收藏</h3>
+              <p>您还没有收藏任何文章</p>
+              <a href="#" onclick="showPage('home')" class="btn">去浏览文章</a>
+            </div>`;
+          return;
+        }
+        
+        container.style.display = 'grid';
+        container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+        container.style.gap = '15px';
+        container.style.gridAutoRows = 'minmax(200px, auto)';
+        
+        favoritePosts.forEach(post => {
+          const statusClass = 'status-' + post.status;
+          const statusText = { draft: '草稿', pending: '待审核', published: '已发布', archived: '已归档' };
+          const categoryName = getCategoryName(post.categoryId);
+          const isFavorite = true; // 因为是收藏列表，所以肯定是已收藏状态
+          
+          container.innerHTML += `
+            <div class="post-item">
+              <div class="post-header">
+                <h3><a href="#" onclick="showPostDetail(${post.id})" class="post-title">${post.title}</a></h3>
+                <span class="status-badge ${statusClass}">${statusText[post.status]}</span>
+              </div>
+              <div class="post-excerpt">
+                ${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}
+              </div>
+              <div class="post-meta">
+                <span class="author">作者: ${post.author}</span>
+                <span class="category">分类: ${categoryName}</span>
+                <span class="date">${new Date(post.createdAt).toLocaleString()}</span>
+                ${post.favorites ? `<span class="favorites">收藏: ${post.favorites}</span>` : ''}
+              </div>
+              <div class="tag-list">
+                ${(post.tags || []).map(t => `<span class="tag-item" onclick="filterByTag('${t}')" style="cursor:pointer;">${t}</span>`).join('')}
+              </div>
+              <div class="post-footer">
+                <a href="#" onclick="showPostDetail(${post.id})" class="read-more">阅读更多 →</a>
+                <button class="btn btn-warning" onclick="toggleFavorite(${post.id})" id="favorite-btn-${post.id}">
+                  ❤️ 已收藏
+                </button>
+              </div>
+            </div>`;
+        });
+        
+        // 添加分页控件
+        renderFavoritesPagination();
+      } catch (error) {
+        console.error('加载收藏失败:', error);
+        container.innerHTML = `
+          <div style="text-align: center; padding: 60px 20px; color: var(--accent-color);">
+            <h3>加载失败</h3>
+            <p>无法加载收藏，请稍后重试</p>
+            <button class="btn" onclick="showFavorites()">重新加载</button>
+          </div>`;
+      }
+    }
+    
+    function renderFavoritesPagination() {
+      const totalPages = Math.ceil(totalFavorites / favoritesPerPage);
+      if (totalPages <= 1) return;
+      
+      const paginationContainer = document.createElement('div');
+      paginationContainer.className = 'pagination';
+      paginationContainer.innerHTML = `
+        <div class="pagination-info">
+          共 ${totalFavorites} 篇收藏，第 ${favoritesPage} / ${totalPages} 页
+        </div>
+        <div class="pagination-buttons">
+          <button class="btn ${favoritesPage === 1 ? 'btn-disabled' : ''}" onclick="${favoritesPage === 1 ? '' : 'showFavorites(1)'} ">首页</button>
+          <button class="btn ${favoritesPage === 1 ? 'btn-disabled' : ''}" onclick="${favoritesPage === 1 ? '' : 'showFavorites(' + (favoritesPage - 1) + ')'} ">上一页</button>
+          <button class="btn ${favoritesPage === totalPages ? 'btn-disabled' : ''}" onclick="${favoritesPage === totalPages ? '' : 'showFavorites(' + (favoritesPage + 1) + ')'} ">下一页</button>
+          <button class="btn ${favoritesPage === totalPages ? 'btn-disabled' : ''}" onclick="${favoritesPage === totalPages ? '' : 'showFavorites(' + totalPages + ')'} ">末页</button>
+        </div>
+      `;
+      
+      // 找到favorites-container并在其后面添加分页控件
+      const container = document.getElementById('favorites-container');
+      const existingPagination = container.nextElementSibling;
+      if (existingPagination && existingPagination.className === 'pagination') {
+        existingPagination.remove();
+      }
+      container.parentNode.insertBefore(paginationContainer, container.nextSibling);
     }
     
     async function openEditModal(id) {
